@@ -41,33 +41,37 @@ def show_operations_with_number():
         print(f"{i:<4} {op['date']:<16} {op['type']:<8} {op['category']:<15} {amount_str} руб.")
     return True
 
+
 def show_statistics():
     global operations
     total_income = 0
     total_expense = 0
     expense_by_category = {}
+
     for op in operations:
         if op['type'] == 'доход':
             total_income += op['amount']
         else:
             total_expense += op['amount']
-        cat = op['category']
-        if cat in expense_by_category:
-            expense_by_category[cat] += op['amount']
-        else:
-            expense_by_category[cat] = op['amount']
-            print('\n' + '=' * 40)
-            print('СТАТИСТИКА')
-            print('=' * 40)
-            print(f'Доходы: {total_income} руб.')
-            print(f'Расходы: {total_expense} руб.')
-            print(f'Баланс: {total_income - total_expense} руб.')
+            cat = op['category']
+            if cat in expense_by_category:
+                expense_by_category[cat] += op['amount']
+            else:
+                expense_by_category[cat] = op['amount']
 
-            if expense_by_category:
-                print('Топ категорий расходов:')
-                sorted_cats = sorted(expense_by_category.items(), key=lambda x: x[1], reverse=True) [:3]
-                for cat, amount in sorted_cats:
-                    print(f'{cat}: {amount} руб. ')
+
+    print('\n' + '=' * 40)
+    print('СТАТИСТИКА')
+    print('=' * 40)
+    print(f'Доходы: {total_income} руб.')
+    print(f'Расходы: {total_expense} руб.')
+    print(f'Баланс: {total_income - total_expense} руб.')
+
+    if expense_by_category:
+        print('\nТоп категорий расходов:')
+        sorted_cats = sorted(expense_by_category.items(), key=lambda x: x[1], reverse=True)[:3]
+        for cat, amount in sorted_cats:
+            print(f'{cat}: {amount} руб.')
 
 
 
